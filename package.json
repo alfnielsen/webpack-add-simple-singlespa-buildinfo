@@ -1,6 +1,6 @@
 {
   "name": "webpack-add-simple-singlespa-buildinfo",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Adds one line in top of output file build with webpack (target single-spa) with name, version and time.",
   "main": "index.js",
   "scripts": {},

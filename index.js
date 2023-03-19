@@ -26,14 +26,7 @@ class AddSimpleSingleSpaBuildInfo {
     },
     generateBuildInfo: (name, version, time, packageJson, content) =>
       `//@build-info|${name}|${version}|${time}\n`,
-  }
-  constructor(options) {
-    if (options) {
-      this.options = Object.assign(this.options, options)
-    }
-  }
-  apply(compiler) {
-    compiler.hooks.afterEmit.tap(pluginName, (compilation) => {
+    postBuild: (compilation) => {
       // Get the package.json file
       const packageJson = this.options.getPackageJson()
       // Get the name of the package
@@ -49,9 +42,21 @@ class AddSimpleSingleSpaBuildInfo {
       // load the file
       let content = readFileSync(filePath, "utf8")
       // Generate the build info and add to top of file
-      content = generateBuildInfo(name, version, time, packageJson, content) + content
+      content =
+        this.options.generateBuildInfo(name, version, time, packageJson, content) +
+        content
       // Write the file
       writeFileSync(filePath, content)
+    },
+  }
+  constructor(options) {
+    if (options) {
+      this.options = Object.assign(this.options, options)
+    }
+  }
+  apply(compiler) {
+    compiler.hooks.afterEmit.tap(pluginName, (compilation) => {
+      this.options.postBuild(compilation)
     })
   }
 }

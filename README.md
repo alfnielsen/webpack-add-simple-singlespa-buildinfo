@@ -47,5 +47,32 @@ options = {
   },
   generateBuildInfo: (name, version, time, packageJson, content) =>
     `//@build-info|${name}|${version}|${time}\n`,
+  postBuild: (compilation) => {
+    // Get the package.json file
+    const packageJson = this.options.getPackageJson()
+    // Get the name of the package
+    const name = this.options.getName(packageJson)
+    // Remove @ and '/' '\' (for organization packages)
+    const fileName = this.options.getFileName(name)
+    // Get the time of the build
+    const time = this.options.getTime(packageJson)
+    // Get the version of the package
+    const version = this.options.getVersion(packageJson)
+    // Format file name matching single-spa build : dist/org-name-project-name.js
+    const filePath = this.options.getFilePath(fileName)
+    // load the file
+    let content = readFileSync(filePath, "utf8")
+    // Generate the build info and add to top of file
+    content =
+      this.options.generateBuildInfo(name, version, time, packageJson, content) + content
+    // Write the file
+    writeFileSync(filePath, content)
+  },
 }
 ```
+
+## Details
+
+The **postBuild** options is the entire plugin!
+
+This is just a simple hook into post build, to add build info to the output file.
