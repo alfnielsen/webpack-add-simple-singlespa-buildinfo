@@ -25,11 +25,27 @@ _Webpack config:_
 ## Options (default):
 
 ```js
-    getPackageJson: () => require("./package.json"),
-    getName: (packageJson) => packageJson.name,
-    getVersion: (packageJson) => packageJson.version,
-    getTime: (packageJson) => new Date().toISOString(),
-    getFileName: (packageName) => packageName.replace(/@/, "").replace(/[\\\/]/g, "-"),
-    getFilePath: (packageFileName) => path.join(__dirname, "dist", `${packageFileName}.js`),
-    generateBuildInfo:generateBuildInfo: (name, version, time, packageJson, content) => `//@build-info|${name}|${version}|${time}\n`,
+options = {
+  getPath: () => {
+    let caller = module.parent.filename
+    let dir = path.dirname(caller)
+    return dir
+  },
+  getPackageJson: () => {
+    let dir = this.options.getPath()
+    let packageJsonPath = path.join(dir, "package.json")
+    let packageJson = readFileSync(packageJsonPath, "utf8")
+    return JSON.parse(packageJson)
+  },
+  getName: (packageJson) => packageJson.name,
+  getVersion: (packageJson) => packageJson.version,
+  getTime: (packageJson) => new Date().toISOString(),
+  getFileName: (packageName) => packageName.replace(/@/, "").replace(/[\\\/]/g, "-"),
+  getFilePath: (packageFileName) => {
+    let dir = this.options.getPath()
+    return path.join(dir, "dist", `${packageFileName}.js`)
+  },
+  generateBuildInfo: (name, version, time, packageJson, content) =>
+    `//@build-info|${name}|${version}|${time}\n`,
+}
 ```
