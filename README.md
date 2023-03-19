@@ -1,23 +1,24 @@
 # webpack-add-simple-singlespa-buildinfo
+
 Adds one line in top of output file build with webpack (target single-spa) with name, version and time.
 
-Very simplt build-info plugin.
+Very simple build-info plugin.
 
 ## Install
 
 > npm i webpack-add-simple-singlespa-buildinfo
 
-
 ## Usage
+
 ```js
-var AddSimpleSingleSpaBuildInfo = require('AddSimpleSingleSpaBuildInfo')
+var AddSimpleSingleSpaBuildInfo = require("AddSimpleSingleSpaBuildInfo")
 ```
 
-*Webpack config:*
+_Webpack config:_
 
 ```js
     plugins: [
-      new AddSimpleSingleSpaBuildInfo(/*options:{ override if needed... }*/)
+      new AddSimpleSingleSpaBuildInfo(/*{ override options if needed... }*/)
     ],
 ```
 
@@ -30,5 +31,5 @@ var AddSimpleSingleSpaBuildInfo = require('AddSimpleSingleSpaBuildInfo')
     getTime: (packageJson) => new Date().toISOString(),
     getFileName: (packageName) => packageName.replace(/@/, "").replace(/[\\\/]/g, "-"),
     getFilePath: (packageFileName) => path.join(__dirname, "dist", `${packageFileName}.js`),
-    generateBuildInfo: (name, version, time) => `//@build-info|${name}|${version}|${time}\n`,
-````
+    generateBuildInfo:generateBuildInfo: (name, version, time, packageJson, content) => `//@build-info|${name}|${version}|${time}\n`,
+```

@@ -1,0 +1,17 @@
+{
+  "name": "webpack-add-simple-singlespa-buildinfo",
+  "version": "1.0.1",
+  "description": "Adds one line in top of output file build with webpack (target single-spa) with name, version and time.",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alfnielsen/webpack-add-simple-singlespa-buildinfo.git"
+  },
+  "author": "",
+  "license": "GNU",
+  "bugs": {
+    "url": "https://github.com/alfnielsen/webpack-add-simple-singlespa-buildinfo/issues"
+  },
+  "homepage": "https://github.com/alfnielsen/webpack-add-simple-singlespa-buildinfo#readme"
+}
