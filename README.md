@@ -11,7 +11,7 @@ Very simple build-info plugin.
 ## Usage
 
 ```js
-var AddSimpleSingleSpaBuildInfo = require("AddSimpleSingleSpaBuildInfo")
+var AddSimpleSingleSpaBuildInfo = require("webpack-add-simple-singlespa-buildinfo")
 ```
 
 _Webpack config:_

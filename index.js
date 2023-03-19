@@ -16,7 +16,9 @@ class AddSimpleSingleSpaBuildInfo {
       `//@build-info|${name}|${version}|${time}\n`,
   }
   constructor(options) {
-    this.options = options
+    if (options) {
+      this.options = Object.assign(this.options, options)
+    }
   }
   apply(compiler) {
     compiler.hooks.afterEmit.tap(pluginName, (compilation) => {
