@@ -40,19 +40,24 @@ class AddSimpleSingleSpaBuildInfo {
       const version = this.options.getVersion(packageJson)
       // Format file name matching single-spa build : dist/org-name-project-name.js
       const filePath = this.options.getFilePath(fileName)
+      // load the file
+      let content = readFileSync(filePath, "utf8")
+      let currectHash = ""
+      // Check if build info exists
+      if (content.indexOf("//@build-info|") === 0) {
+        // get currect hash
+        currectHash = content.split("|").reverse()[0]
+        // remove the old build info
+        content = content.replace(/\/\/@build-info\|.*\n/, "")
+      }
       // Create a hash of the file
       const hashSum = crypto.createHash("sha256")
       const base64Hash = hashSum.digest("base64")
-      // load the file
-      let content = readFileSync(filePath, "utf8")
+      hashSum.update(content)
       // test if first line is build info and it it's hash is the same as the current hash
-      if (content.indexOf("//@build-info|") === 0 && content.indexOf(base64Hash) !== -1) {
+      if (currectHash === base64Hash) {
         // No update!
       } else {
-        // remove the build info if it exists
-        if (content.indexOf("//@build-info|") === 0) {
-          content = content.replace(/\/\/@build-info\|.*\n/, "")
-        }
         // Generate the build info and add to top of file
         content = this.options.generateBuildInfo({ name, version, time, packageJson, base64Hash, content }) + content
         // Write the file
