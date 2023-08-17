@@ -1,4 +1,5 @@
 const { readFileSync, existsSync, writeFileSync } = require("fs")
+const crypto = require("crypto")
 const path = require("path")
 
 const pluginName = "AddSimpleSingleSpaBuildInfo"
