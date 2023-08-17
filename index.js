@@ -52,8 +52,8 @@ class AddSimpleSingleSpaBuildInfo {
       }
       // Create a hash of the file
       const hashSum = crypto.createHash("sha256")
-      const base64Hash = hashSum.digest("base64")
       hashSum.update(content)
+      const base64Hash = hashSum.digest("base64")
       // test if first line is build info and it it's hash is the same as the current hash
       if (currectHash === base64Hash) {
         // No update!
